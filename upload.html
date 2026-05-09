@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phymatics Manager | Virtual Folder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+       /* --- THEME CONFIGURATION --- */
+       :root {
+          --bg-color: #0f172a;
+          --card-color: #1e293b;
+          --accent-color: #38bdf8; /* Cyan */
+          --text-color: #f1f5f9;
+          --border-color: rgba(255,255,255,0.1);
+       }
+
+       * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+       body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        height: 100vh;
+        display: flex;
+        overflow: hidden;
+       }
+
+       /* --- SIDEBAR --- */
+       .sidebar {
+        width: 260px;
+        background: var(--card-color);
+        border-right: 1px solid var(--border-color);
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+       }
+
+       .brand { font-size: 1.4rem; font-weight: bold; color: var(--accent-color); margin-bottom: 40px; display: flex; align-items: center; gap: 10px; }
+
+       .nav-item {
+        padding: 12px 15px;
+        color: #94a3b8;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        display: flex; align-items: center; gap: 12px;
+        transition: 0.2s;
+       }
+       .nav-item:hover, .nav-item.active { background: rgba(56, 189, 248, 0.1); color: white; }
+
+       /* --- MAIN LAYOUT --- */
+       .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+
+       .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 20px;
+       }
+
+       /* --- CARDS --- */
+       .panel {
+        background: var(--card-color);
+        border: 1px solid var(--card-color);
+        border-radius: 16px;
+        padding: 25px;
+        height: 100%;
+       }
+
+       h2 { font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+
+       /* --- UPLOAD ZONE --- */
+       .drop-area {
+        border: 2px dashed var(--border-color);
+        border-radius: 12px;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.02);
+        cursor: pointer;
+        transition: 0.3s;
+       }
+
+       .drop-area:hover {
+        border-color: var(--accent-color);
+        background: rgba(56, 189, 248, 0.05);
+       }
+
+       .drop-area i { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; }
+
+       /* --- RECENT UPLOADS LIST --- */
+       .file-list {
+        list-style: none;
+        max-height: 400px;
+        overflow-y: auto;
+       }
+
+       .file-item {
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.03);
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition: 0.2s;
+       }
+        
+       .file-item:hover { border-color: var(--accent-color); transform: translateX(5px); }
+
+       .file-icon {
+        width: 40px; height: 40px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        margin-right: 15px;
+        color: #94a3b8;
+       }
+
+       .file-meta { flex: 1; }
+       .file-meta h4 { font-size: 0.95rem; color: white; margin-bottom: 3px; }
+       .file-meta p { font-size: 0.75rem; color: #64748b; }
+
+       .btn-action {
+        background: none; border: none; color: #ef4444;
+        cursor: pointer; padding: 8px; opacity: 0.6; transition: 0.2s;
+       }
+       .btn-action:hover { opacity: 1; background: rgba(239,68,68,0.1); border-radius: 5px; }
+
+       /* Utility */
+       .btn-clear {
+        float: right;
+        background: none; border: none; color: #94a3b8;
+        font-size: 0.8rem; cursor: pointer;
+       }
+       .btn-clear:hover { text-decoration: underline; color: white; }
+
+       /* =========================================
+           MOBILE RESPONSIVE PATCH (Universal Fix)
+           =========================================
+
+        /* 1. SCREEN SIZE: TABLETS & PHONES (Below 768px) */
+        @media (max-width: 7688px) {
+
+            /* --- LAYOUT RESET --- */
+            body {
+                flex-direction: column; /* Stack Sidebar on top of Content */
+                height: auto; /* Allow scrolling */
+                overflow-y: auto;
+            }
+
+            /* --- SIDEBAR TRANSFORM (Hamburger or Top Bar) --- */
+            .sidebar, .glass.sidebar, nav.sidebar {
+                width: 100%; /* Full width */
+                height: auto; /* Auto height */
+                position: relative;
+                padding: 15px;
+                flex-direction: row; /* Horizontal items */
+                justify-content: space-between;
+                align-items: center;
+                overflow-x: auto; /* Scroll sideways if menu is long */
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            /* Hide extra text in sidebar on mobile to save space */
+            .sidebar p, .sidebar small, .footer-note {
+                display: none;
+            }
+
+            /* --- MAIN CONTENT FIXES --- */
+            .main-content, .main-view, .legal-container, .container {
+                padding: 20px 15px !important; /* Smaller padding */
+                width: 100% !important;
+            }
+
+            /* --- GRIDS (Forces Single Column) --- */
+            .grid, .grid-container, .upload-grid, .container {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 25px !important;
+            }
+
+            /* --- TYPOGRAPHY SCALING --- */
+            h1, .champion-title {
+                font-size: 2.2rem !important; /* Shrink big titles */
+                line-height: 1.2;
+            }
+
+            h2 { font-size: 1.5rem !important; }
+
+            p, li {
+                font-size: 1rem !important;
+                line-height: 1.5;
+            }
+
+            /* --- TOUCH TARGETS (Makes buttons finger-friendly) --- */
+            button, .btn, .nav-btn, input, select {
+                min-height: 48px; /* Apple's recommended touch size */
+                font-size: 16px !important; /* Prevents zooming on iPhone */
+            }
+
+            /* --- SPECIFIC PAGE FIXES --- */
+
+            /* Fix the "Contact" Grid */
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .icon-box { margin: 0 auto 10px auto; }
+
+            /* Fix the "Video Player" */
+            .cinema-stage {
+                margin-bottom: 20px;
+                padding: 10px;
+            }
+
+            /* Fix the "Upload Zone" */
+            .drop-zone, .drop-box {
+                height: 150px; /* Shorter on phone */
+            }
+        }
+
+        /* 2. EXTRA SMALL PHONES (Below 400px) */
+        @media (max-width: 400px) {
+            .logo { font-size: 1.2rem; }
+            h1 { font-size: 1.8rem !important; }
+            .sidebar { flex-wrap: wrap; } /* Allow menu to wrap lines */
+
+            /* 1. Hide Desktop Nav */
+            .desktop-nav { display: none; }
+
+            /* 2. Show Mobile Toggle Button */
+            .mobile-toggle { display: block; }
+
+            /* 3. Adjust Logo Size */
+            .logo { font-size: 1.3rem; }
+
+            /* 4. Container Padding */
+            .nav-container { padding: 0 15px; }
+        }
+       
+    </style>
+</head>
+<body>
+    
+   <nav class="sidebar">
+        <div class="brand"><i class="fas fa-cloud-bolt"></i> Phymatics</div>
+        <a href="#" class="nav-item active"><i class="fas fa-Upload"></i> Upload Center</a>
+        <a href="#" class="nav-item"><i class="fas fa-folder"></i> My Drive</a>
+        <a href="#" class="nav-item"><i class="fas fa-cg"></i> Setttings</a>
+   </nav>
+
+   <main class="main-content">
+    <h1>File Manager</h1>
+    <p style="color: #64748b;">Manage your physics and math resources.</p>
+
+    <div class="grid-container">
+
+        <!-- LEFT: UPLOAD ZONE -->
+        <div class="panel">
+            <h2><i class="fas fa-cloud-upload-alt"></i> Upload New File</h2>
+            <div class="drop-area" id="dropZone">
+                <i class="fas fa-file-import"></i>
+                <p>Drag & Drop files here</p>
+                <span style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">or click to browse computer</span>
+                <input type="file" id="fileInput" hidden>
+            </div>
+            <p id="uploadStatus" style="margin-top: 15px; color: var(--accent-color); text-align: center; opacity: 0;">
+                <i class="fas fa-spinner fa-spin"></i> Processing...
+            </p>
+        </div>
+
+        <!-- RIGHT: RECENT UPLOADS LIST -->
+        <div class="panel">
+            <h2>
+                <i class="fas fa-history"></i> Recent Uploads
+                <button class="btn-clear" onclick="clearAll()">Clear History</button>
+            </h2>
+
+            <!-- THIS IS WHERE FILES APPEAR -->
+            <ul class="file-list" id="recentList">
+                <!-- Javascript injects items here -->
+            </ul>
+        </div>
+    </div>
+   </main>
+
+    <!-- 3. JAVASCRIPT LOGIC -->
+    <script>
+        // --- SETTING ---
+        const DB_NAME = 'phymatics_db_v1';
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const recentList = document.getElementById('recentList');
+
+        // 1. INITIAL LOAD (Runs when page opens)
+        document.addEventListener('DOMContentLoaded', () {
+            renderFiles();
+        });
+
+        // 2. DRAG & DROP HANDLERS
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.background = 'rgba(56,189,248,0.1)';
+            dropZone.style.borderColor = '#38bdf8';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            dropZone.style.background = 'rgba(255,255,255,,0.02)';
+            dropZone.style.borderColor = 'rgba(255,255,255,0.1)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.background = 'rgba(255,255,255,0.02)';
+            dropZone.style.borderColor = 'rgba(255,255,255,0.1)';
+
+            if (e.dataTransfer.files.length) {
+                saveFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                saveFile(fileInput.files[0]);
+            }
+        });
+
+        // 3. SAVE FILE LOGIC (The "Brain")
+        function saveFile(file) {
+            // Show Loading Spinner
+            const status = document.getElementById('uploadStatus');
+            status.style.opacity = '1';
+
+            // Simulate Network Delay
+            setTimeout(() => {
+                const newFile = {
+                    id: Date.now(),
+                    name: file.name,
+                    size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
+                    type: file.type, // mime type
+                    date: new Date().toLocaleTimeString()
+                };
+
+                // Get existing array or empty array
+                const db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+
+                // Add to beginning of array
+                db.unshift(newFile);
+
+                // Save back to storage
+                localStorage.setItem(DB_NAME, JSON.stringify(db));
+
+                // Update UI
+                renderFiles();
+                status.style.opacity = '0'; // Hide spinner
+            }, 800);
+        }
+
+        // 4. DISPLAY FILES LOGIC (The Display)
+        function renderFiles() {
+            const db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+            recentList.innerHTML = ''; // Clear list
+
+            if (db.length === 0) {
+                recentList.innerHTML = '<li style="text-align:center; color:#64748b; margin-top:50px;">No files uploaded yet.</li>';
+                return;
+            }
+
+            db.forEach(file => {
+                // Determine Icon
+                let icon = 'fa-file';
+                let color = '#94a3b8';
+
+                if (file.name.endsWith('.pdf')) { icon = 'fa-file-pdf'; color = '#ef4444'; }
+                if (file.name.endsWith('.mp4')) { icon = 'fa-file-video'; color = '#3b82f6'; }
+                if (file.name.endsWith('.png')) || file.name.endsWith('.jpg')) { icon = 'fa-file-image'; color = '#10b981'; }
+
+                const html = `
+                    <li class="file-item">
+                        <div class="file-icon" style="color:${color}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="file-meta">
+                            <h4>${file.name}</h4>
+                            <p>&{file.size} - Uploaded at ${file.date}</p>
+                        </div>
+                        <button class="btn-action" onclick="deleteFile(${file.id})">
+                            <i class="fas fa-trash"></li>
+                        </button>
+                    </li>
+                `;
+                recentList.innerHTML += html;
+            });
+        }
+
+        // 5. DELETE FILE 
+        window.deleteFile = function(id) {
+            let db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+            db = db.filter(file => file.id !== id); // Remove item
+            localStorage.setItem(DB_NAME, JSON.stringify(db));
+            renderFiles(); // Refresh display
+        }
+
+        // 6. CLEAR ALL
+        window.clearAll = function() {
+            if(confirm('Clear entire upload history?')) {
+                localStorage.removeItem(DB_NAME);
+                renderFiles();
+            }
+        }
+    </script>
+
+</body>
+</html>

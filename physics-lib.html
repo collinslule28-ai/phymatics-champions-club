@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uganda Physics Digital Library</title>
+    <style>
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  }
+        body { background-color: #f0f2f5; margin: 0; padding: 0; color: #333; }
+
+        header { background: #004d40; color: white; padding: 40px 20px; text-align: center; }
+        .search-box { margin-top: 20px; }
+        .search-box input { padding: 12px; width: 300px; border: none; border-radius: 4px 0 0 4px; }
+        .search-box button { padding: 12px 20px; border: none; background: #ffc107; cursor: pointer; border-radius: 0 4px 4px 0; font-weight: bold; }
+
+        .container { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .column { flex: 1; min-width: 35px; }
+        h2 { border-bottom: 3px solid #004d40; padding-bottom: 10px; color: #004d40; }
+
+        .book-card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; }
+        .book-card:hover { transform: translateY(-5px); }
+        .book-card h3 { margin-top: 0; font-size: 1.1rem; }
+        .badge { background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .download-btn { display: inline-block; margin-top: 10px; color: #007bff; text-decoration: none; font-weight: bold; }
+
+        .site-footer {
+            background-color: #002d26; /* Darker shade of your header green */
+            color: #ffffff;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3, .footer-section h4 {
+            color: #ffc107; /* UNEB Yellow for highlights */
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255.0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+       
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Physics Digital Library</h1>
+        <p>Accessing Ugandan Curriculum & Global Research</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for 'Mechanics', 'S.4', 'Quantum'...">
+            <button onclick="searchBooks()">Search</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Local Section -->
+        <section class="column">
+            <h2>Uganda Curriculum</h2>
+            <div id="local-list" class="book-grid">
+                <!-- Javascript will inject books here -->
+            </div>
+        </section>  
+        
+        <!-- Global Section -->
+        <section class="column">
+            <h2>Global Academic</h2>     
+            <div id="global-list" class="book-grid">
+                <!-- Javascript will inject books here -->
+            </div>    
+        </section>
+    </main>
+
+    <script src="physics.js"></script>
+</body>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <!-- About Section -->
+        <div class="footer-section">
+            <h3>Physics Digital Library</h3>
+            <p>Empowering Phymatics Champions Club Members and Ugandan students with access to UCE & UACE physics resources, NCDC textbooks, and UNEB past papers.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+            <h4>Education Portals</h4>
+            <ul>
+                <li><a href="https://ncdc.go.ug" target="_blank">NCDC Uganda</a></li>
+                <li><a href="https://uneb.ac.ug" target="_blank">UNEB Portal</a></li>
+                <li><a href="https://education.go.ug" target="_blank">Ministry of Education</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="footer-section">
+            <h4>Support</h4>
+            <p>Email: baziradathan@gmail.com</p>
+            <p>Location: Buikwe, Uganda</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026[Phymatics Champions Club](https://lutild.github.io/Phymatic/). Promoting Physics & Mathematics Excellence.</p>
+    </div>
+</footer>
+</html>

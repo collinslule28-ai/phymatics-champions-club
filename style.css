@@ -1,0 +1,223 @@
+/* Core Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.lib-header {
+    background: linear-gradient(135deg, #044a99 0%, #002d62 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.more-resources-section {
+    margin-top: 50px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #e0e6ed;
+}
+
+.section-header {
+    text-align: left;
+    margin-bottom: 30px;
+    border-left: 5px solid #004a99;
+    padding-left: 15px;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #002d62;
+    font-size: 1.5rem;
+}
+
+.extra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Secondary Upload Button */
+.quick-upload-box {
+    text-align: center;
+    padding: 20px;
+    background: #f0f7ff;
+    border-radius: 10px;
+}
+
+.secondary-upload-btn {
+    display: inline-block;
+    background: #ffffff;
+    color: #004a99;
+    border: 2px solid #004a99;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.secondary-upload-btn:hover {
+    background: #004a99;
+    color: #fff;
+}
+
+#extraUpload {
+    display: none; /* Hide the default browser input */
+}
+
+.phymatics-btn {
+    background-color: #004a99;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.phymatics-btn:hover {
+    background-color: #003366;
+}
+
+/* Footer */
+.lib-footer {
+    background: #222;
+    color: #ccc;
+    text-align: center;
+    padding: 30px;
+    margin-top: 60px;
+}
+
+.wa-btn {
+    display: inline-block;
+    background: #25d366;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.wa-btn:hover {
+    background: #1ebd54;
+}
+
+
+/* =========================================
+           MOBILE RESPONSIVE PATCH (Universal Fix)
+           =========================================
+
+        /* 1. SCREEN SIZE: TABLETS & PHONES (Below 768px) */
+        @media (max-width: 7688px) {
+
+            /* --- LAYOUT RESET --- */
+            body {
+                flex-direction: column; /* Stack Sidebar on top of Content */
+                height: auto; /* Allow scrolling */
+                overflow-y: auto;
+            }
+
+            /* --- SIDEBAR TRANSFORM (Hamburger or Top Bar) --- */
+            .sidebar, .glass.sidebar, nav.sidebar {
+                width: 100%; /* Full width */
+                height: auto; /* Auto height */
+                position: relative;
+                padding: 15px;
+                flex-direction: row; /* Horizontal items */
+                justify-content: space-between;
+                align-items: center;
+                overflow-x: auto; /* Scroll sideways if menu is long */
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            /* Hide extra text in sidebar on mobile to save space */
+            .sidebar p, .sidebar small, .footer-note {
+                display: none;
+            }
+
+            /* --- MAIN CONTENT FIXES --- */
+            .main-content, .main-view, .legal-container, .container {
+                padding: 20px 15px !important; /* Smaller padding */
+                width: 100% !important;
+            }
+
+            /* --- GRIDS (Forces Single Column) --- */
+            .grid, .grid-container, .upload-grid, .container {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 25px !important;
+            }
+
+            /* --- TYPOGRAPHY SCALING --- */
+            h1, .champion-title {
+                font-size: 2.2rem !important; /* Shrink big titles */
+                line-height: 1.2;
+            }
+
+            h2 { font-size: 1.5rem !important; }
+
+            p, li {
+                font-size: 1rem !important;
+                line-height: 1.5;
+            }
+
+            /* --- TOUCH TARGETS (Makes buttons finger-friendly) --- */
+            button, .btn, .nav-btn, input, select {
+                min-height: 48px; /* Apple's recommended touch size */
+                font-size: 16px !important; /* Prevents zooming on iPhone */
+            }
+
+            /* --- SPECIFIC PAGE FIXES --- */
+
+            /* Fix the "Contact" Grid */
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .icon-box { margin: 0 auto 10px auto; }
+
+            /* Fix the "Video Player" */
+            .cinema-stage {
+                margin-bottom: 20px;
+                padding: 10px;
+            }
+
+            /* Fix the "Upload Zone" */
+            .drop-zone, .drop-box {
+                height: 150px; /* Shorter on phone */
+            }
+        }
+
+        /* 2. EXTRA SMALL PHONES (Below 400px) */
+        @media (max-width: 400px) {
+            .logo { font-size: 1.2rem; }
+            h1 { font-size: 1.8rem !important; }
+            .sidebar { flex-wrap: wrap; } /* Allow menu to wrap lines */
+
+            /* 1. Hide Desktop Nav */
+            .desktop-nav { display: none; }
+
+            /* 2. Show Mobile Toggle Button */
+            .mobile-toggle { display: block; }
+
+            /* 3. Adjust Logo Size */
+            .logo { font-size: 1.3rem; }
+
+            /* 4. Container Padding */
+            .nav-container { padding: 0 15px; }
+        }

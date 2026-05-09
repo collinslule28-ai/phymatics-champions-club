@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | Phymatics Champions Club</title>
+    <style>
+        /* Base styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        h1, h2 { color: #004a99; border-left: 5px solid #ffcc00; padding-left: 15px; }
+
+        /* Grid Layout */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+
+        /* Resource Card */
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .card h3 { margin-top: 0; font-size: 1.2rem; color: #333; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 10px; }
+        
+        /* Action Buttons */
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 15px; }
+        .btn-pdf { background: #d32f2f; color: white; }
+        .btn-video { background: #004a99; color: white; }
+        .btn:hover { opacity: 0.9; }
+
+        /* =========================================
+           MOBILE RESPONSIVE PATCH (Universal Fix)
+           =========================================
+
+        /* 1. SCREEN SIZE: TABLETS & PHONES (Below 768px) */
+        @media (max-width: 7688px) {
+
+            /* --- LAYOUT RESET --- */
+            body {
+                flex-direction: column; /* Stack Sidebar on top of Content */
+                height: auto; /* Allow scrolling */
+                overflow-y: auto;
+            }
+
+            /* --- SIDEBAR TRANSFORM (Hamburger or Top Bar) --- */
+            .sidebar, .glass.sidebar, nav.sidebar {
+                width: 100%; /* Full width */
+                height: auto; /* Auto height */
+                position: relative;
+                padding: 15px;
+                flex-direction: row; /* Horizontal items */
+                justify-content: space-between;
+                align-items: center;
+                overflow-x: auto; /* Scroll sideways if menu is long */
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            /* Hide extra text in sidebar on mobile to save space */
+            .sidebar p, .sidebar small, .footer-note {
+                display: none;
+            }
+
+            /* --- MAIN CONTENT FIXES --- */
+            .main-content, .main-view, .legal-container, .container {
+                padding: 20px 15px !important; /* Smaller padding */
+                width: 100% !important;
+            }
+
+            /* --- GRIDS (Forces Single Column) --- */
+            .grid, .grid-container, .upload-grid, .container {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 25px !important;
+            }
+
+            /* --- TYPOGRAPHY SCALING --- */
+            h1, .champion-title {
+                font-size: 2.2rem !important; /* Shrink big titles */
+                line-height: 1.2;
+            }
+
+            h2 { font-size: 1.5rem !important; }
+
+            p, li {
+                font-size: 1rem !important;
+                line-height: 1.5;
+            }
+
+            /* --- TOUCH TARGETS (Makes buttons finger-friendly) --- */
+            button, .btn, .nav-btn, input, select {
+                min-height: 48px; /* Apple's recommended touch size */
+                font-size: 16px !important; /* Prevents zooming on iPhone */
+            }
+
+            /* --- SPECIFIC PAGE FIXES --- */
+
+            /* Fix the "Contact" Grid */
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .icon-box { margin: 0 auto 10px auto; }
+
+            /* Fix the "Video Player" */
+            .cinema-stage {
+                margin-bottom: 20px;
+                padding: 10px;
+            }
+
+            /* Fix the "Upload Zone" */
+            .drop-zone, .drop-box {
+                height: 150px; /* Shorter on phone */
+            }
+        }
+
+        /* 2. EXTRA SMALL PHONES (Below 400px) */
+        @media (max-width: 400px) {
+            .logo { font-size: 1.2rem; }
+            h1 { font-size: 1.8rem !important; }
+            .sidebar { flex-wrap: wrap; } /* Allow menu to wrap lines */
+
+            /* 1. Hide Desktop Nav */
+            .desktop-nav { display: none; }
+
+            /* 2. Show Mobile Toggle Button */
+            .mobile-toggle { display: block; }
+
+            /* 3. Adjust Logo Size */
+            .logo { font-size: 1.3rem; }
+
+            /* 4. Container Padding */
+            .nav-container { padding: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+        <h1>Champions Resource Center</h1>
+        <p>Access curated Materials for UCE (O-Level) and UACE (A-Level) students.</p>
+
+        <!-- Physics Section -->
+        <section>
+            <h2>Physics Materials</h2>
+            <div class="resource-grid">
+                <!-- Resource 1: PDF -->
+                <div class="card">
+                    <span class="tag">UACE Paper 1</span> 
+                    <h3>Mechanics & Hydrodynamics</h3>
+                    <p>Summarized notes and revision questions for A-Level Physics.</p>
+                    <a href="doc/physics/a level physics paper1 notes mechanics modern physics and heat energy.pdf" class="btn btn-pdf">Download PDF</a>
+                </div>
+
+                <!-- Resource 2: Video -->
+                <div class="card">
+                    <span class="tag">UCE Practical</span>
+                    <h3>Data Manipulation in Tables</h3>
+                    <p>Master the skills for marking points in Physics practical exams.</p>
+                    <a href="https://www.youtube.com/watch?v=hPtp5ZuXmRc" class="btn btn-video">Watch Video</a>
+                </div>
+            </div>
+
+            <!-- Mathematics Section -->
+            <section style="margin-top: 50px;">
+                <h2>Mathematics Materials</h2>
+                <div class="resource-grid">
+                    <div class="card">
+                        <span class="tag">Pure Math</span>
+                        <h3>Calculus & integration</h3>
+                        <p>Essential techniques for solving complex integration problems.</p>
+                        <a href="doc/mathematics/subsidiary mathematics sub math syllabus new a level curruculum by ncdc 2025.pdf" class="btn btn-pdf">Download PDF</a>
+                    </div>
+
+                    <div class="card">
+                        <span class="tag">Applied Math</span>
+                        <h3>Probability & Statistics</h3>
+                        <p>Detailed notes covering the Ugandan Advanced Level syllabus.</p>
+                        <a href="doc/mathematics/priciples of pure mathematics by kawuma fahad.pdf" class="btn btn-pdf">Download PDF</a>
+                    </div>
+
+                     <!-- Resource 2: Video -->
+                    <div class="card">
+                        <span class="tag">Maths Video</span>
+                        <h3>Practice is the Best thing</h3>
+                        <p>Master the skills for marking points in making practice.</p>
+                        <a href="video/VID_20260314_164155_044.mp4" class="btn btn-video">Watch Video</a>
+                    </div>
+
+                     
+                </div>
+            </section>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phymatics Math Portal</title>
+    <link rel="stylesheet" href="math.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- LEFT SIDEBAR -->
+    <nav class="glass-sidebar">
+        <div class="brand">
+            <i class="fas fa-cube"> </i>
+            <h2>Phymatics</h2>           
+        </div>
+
+        <div class="menu">
+            <button class="nav-btn active" onclick="filterResources('all', this)">
+                <i class="fas fa-globe"></i> All Resources
+            </button>
+            <button class="nav-btn" onclick="filterResources('olevel', this)">
+                <i class="fas fa-shape"></i> O-Level Maths
+            </button>
+            <button class="nav-btn" onclick="filterResources('alevel', this)">
+                <i class="fas fa-chart-line"></i> A-level Maths
+            </button>
+            <button class="nav-btn" onclick="filterResources('videos', this)">
+                <i class="fas fa-play-circle"></i> Video Tutorials
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-view">
+        <!-- Top Bar -->
+        <header class="glass-header">
+            <div class="welcome-text">
+                <h1>Library Network</h1>
+                <p>Connecting Uganda's Best Math Resources</p>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Find topics (e.g., Calculus)..." onkeyup="searchLibrary()">
+            </div>
+        </header>
+
+        <!-- Resource Grid -->
+        <div id="resourceGrid" class="grid-container">
+            <!-- JavaScript will put cards here -->
+            <h2 style="color:white">Loading Resources...</h2>
+        </div>
+    </main>
+
+    <script src="math.js"></script>
+</body>
+</html>

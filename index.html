@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phymatics Champions Club</title>
+    <style>
+        /* General Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: #f9f9f9; }
+
+        /* Header Navigation */
+        header {
+            background: #004a99;
+            color: #fff;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 25px; position: relative; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #ffcc00; }
+
+        /* Shared Styles from previous steps */
+        *{ box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: #f9f9f9; }
+
+        /* Navigation (Same as provided previously) */
+        header { background: #004a99; color: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-img { height: 45px; width: 45px; background: #fff; border-radius: 50%; padding: 5px; } /* Placeholder for actual logo */
+        .nav-links { list-style: none; display: flex; }
+        .nav-links a { color: white; text-decoration: none; padding: 10px; font-weight: 500; }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153,0.8)), url('https://via.placeholder.com') center/cover; color: white; padding: 100px 5%; text-align: center; }
+        .hero h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 30px; }
+        .cta-button { background: #ffcc00; color: #333; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; }
+        .cta-button:hover { background: #e6b800; transform: scale(1.05); }
+
+        /* Hero Logo Styling */
+        .hero-logo-box {
+            margin-bottom: 20px;
+        }
+
+        .hero-logo {
+            width: 220px; /* Adjust size as needed */
+            height: auto;
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3)); /* Makes logo pop */
+            border-radius: 10px;
+        }
+
+        /* Content Section */
+        .section { padding: 60px 5%; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));gap: 30px; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); border-top: 5px solid #004a99; }
+        .card h3 { color: #004a99; margin-bottom: 15px; }
+
+        /* Dropdown Styling */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a { color: #333; padding: 12px 16px; display: block; }
+        .dropdown-content a:hover { background: #f1f1f1; color: #004a99; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Photo Grid Styling */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover; /* Ensures images are cropped neatly */
+            display: block;
+        }
+
+        .caption {
+            padding: 15px;
+        }
+
+        .caption h4 {
+            color: #004a99;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .caption p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+            border: 5px solid #04c4cb;
+            border-bottom-right-radius: 20%;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+
+        /* Layout Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        /* Individual Item */
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px; /* smooth corners for the image only */
+            height: 300px;
+        }
+
+        .grid-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Clickable Caption Overlay */
+        .caption-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 74, 153, 0.7); /* Club Blue  with transparency */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none; /* Removes underline from link */
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease;
+        }
+
+        .grid-item:hover .caption-overlay {
+            opacity: 1; /* Shows on hover */
+        }
+
+        .grid-item:hover .grid-img {
+            transform: scale(1.1); /* Zoom effect behind the caption */
+        }
+
+        /* Caption Content */
+        .caption-text {
+            color: white;
+            padding: 20px;
+        }
+
+        .caption-text h4 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            color: #ffcc00; /* Gold heading */
+        }
+
+        .caption-text p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .phone-link {
+            display: inline-block;
+            background: white;
+            color: #004a99;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            overflow: hidden;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .wrapper {
+            display: grid;
+            align-content: center;
+            grid-auto-flow: column;
+            grid-auto-columns: 16rem;
+            gap: 5rem;
+            animation: animate 15s linear infinite;
+        }
+        
+        @keyframes animate {
+            to {
+                transform: translateX(calc(-5 * (16rem - 1)));
+            }
+        }
+
+        /* Footer Styling */
+        footer {
+            background: #1a1a1a;
+            color: #ecf0f1;
+            padding: 50px 5% 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-section h4 { color: #ffcc00; margin-bottom: 15px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 8px; }
+        .footer-section a { color: #fff; text-decoration: underline; }
+
+        /* WhatsApp Button */
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            background: #25D366;
+            color: white !important;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">Phymatics Champions Club</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li class="dropdown">
+                    <a href="#">Resource Center</a>
+                    <div class="dropdown-content">
+                        <a href="physics-lib.html">Physics Library</a>
+                        <a href="math-lib.html">Math Library</a>
+                        <a href="tutorials-lib.html">Video Tutorials</a>
+                    </div>
+                </li>
+                
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <!-- Logo Image Added Here -->
+            <div class="hero-logo-box">
+                <img src="logo/logo.jpg" alt="Phymatic Champions Club Logo" class="hero-logo">
+            </div>
+
+            <h2>Shaping Future Scientists of Uganda</h2>
+            <p>Empowering students through specialized tutoring and high-quality resources in Physics and Mathematics.</p>
+            <a href="resources.html" class="cta-button">Browse Study Materials</a>
+        </div>
+    </section><br><br>
+
+    <!-- Main Content -->
+    <section class="section container" id="about">
+        <div class="grid">
+            <div class="card">
+                <h3>Our Mission</h3>
+                <p>Students At schools like <strong>Buikwe Senior Secondary School</strong> receive direct support in their studies from our dedicated team of mentors.</p>
+            </div>
+            <div class="card">
+                <h3>The Champions Path</h3>
+                <p>Access our curriculum of PDF notes and video lessons designed to simplify complex topics and boost exam performance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section container" id="gallery">
+        <h2 style="text-align: center; color: #004a99; margin-bottom: 30px;">Our Champions in Action</h2>
+        <div class="photo-grid">
+
+            <!-- Photo Item 1 -->
+            <div class="photo-card">
+                <img src="imgs/reading.jpg" alt="students Reading">
+                <h4>Co-operation and Consulting of our Club Members</h4>
+                <p>Simplifies the complex integration for advanced level candidates.</p>
+            </div>
+            
+            <!-- Photo Item 2 -->
+            <div class="photo-card">
+                <img src="imgs/handover.jpg" alt="students Reading">
+                <h4>Team Building</h4>
+                <p>The Phymatics Champions Club planning the next outreach.</p>
+            </div>
+
+            <!-- Photo Item 3 -->
+            <div class="photo-card">
+                <img src="imgs/lab.jpg" alt="students Reading">
+                <h4>Physics Lab Session</h4>
+                <p>Students at Buikwe SS conducting Laboratory Lessons.</p>
+            </div>
+
+            <!-- Photo Item 4 -->
+            <div class="photo-card">
+                <img src="imgs/obs.jpg" alt="students Reading">
+                <h4>Some of the Old Boys from Buikwe SS</h4>
+                <p>Smart and Genious Old boys. </p>
+            </div>
+
+            <!-- Photo Item 5 -->
+            <div class="photo-card">
+                <img src="imgs/patron.jpg" alt="students Reading">
+                <h4>Phymatics Champions Club Patron</h4>
+                <p>Mr. Bazira Dathan.</p>
+            </div>
+
+            <!-- Photo Item 6 -->
+            <div class="photo-card">
+                <img src="imgs/reg.jpg" alt="students Reading">
+                <h4>Founder Members</h4>
+                <p>Genious Founders of the Club.</p>
+            </div>
+
+            <!-- Photo Item 7 -->
+            <div class="photo-card">
+                <img src="imgs/gather.jpg" alt="students Reading">
+                <h4>Club Members At Buikwe SS</h4>
+                <p>Team work and Co-operation.</p>
+            </div>
+
+            <!-- Photo Item 8 -->
+            <div class="photo-card">
+                <img src="imgs/CHAIRPERSON.jpg" alt="students Reading">
+                <h4>Chairperson and Patron</h4>
+                <p>Kiggundu Grace, one of the cabinate members in Phymatics Champions Club.</p>
+            </div>
+
+            <!-- Photo Item 9 -->
+            <div class="photo-card">
+                <img src="imgs/PARTY TIME.jpg" alt="students Reading">
+                <h4>Hand Over party</h4>
+                <p>In Phymatics Champions Club, we give chances to the students to elect new cabinates after every period of three terms.</p>
+            </div>
+        </div>
+    </section><br><br>
+
+    <div style="text-align: center; margin-top: 20px; transition: 0.4s ease-in-out;">
+        <img src="imgs/candidates.jpg" alt="students Reading">
+        <p>Some of the Best 2025 Candidates from <strong>"PHYMATICS CHAMPIONS CLUB".</strong></p><br><br>
+    </div>
+    <style>
+        /* --- PARAGRAPH STYLE --- */
+        .champion-desc {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.2rem;  /* Slightly larger than normal text */
+            line-height: 1.8;   /* Extra breathing room between lines */
+            color: #000000;   /* Soft Blue-Grey (Easy on eyes) */
+
+            text-align: center;  /* Centered alignment */
+            max-width: 700px;    /* Prevents text from stretching too wide */
+            margin: 0 auto 40px auto;/* Centers the block & adds bottom space */
+        }
+    </style>
+    <p class="champion-desc">
+        Empowering the next generation of Scientists with world-class resources in Physics and Mathematics.<br>
+        Join a community of champions dedicated to academic excellence and innovation.<br>
+        <strong>TAP OR CLICK BELOW IN THE DOCUMENT AND GET A COPY</strong>
+    </p>
+ 
+
+    <section class="grid-container">
+        <!-- Image Item 1 -->
+        <div class="grid-item">
+            <img src="imgs/math 2.jpg" class="grid-img">
+            <h4>SURE "A" IN MATHS.</h4>
+            <a href="https://wa.me/+256773554329" class="caption-overlay">
+                <div class="caption-text">
+                    <p>WhatsApp Us</p>
+                    <span class="phone-link">+256 773 554329</span>
+                </div>
+            </a>
+            <p>Click to have a book at affordable Price.</p><br><br>
+        </div>
+
+         <!-- Image Item 1 -->
+        <div class="grid-item">
+            <img src="imgs/maths.jpg" class="grid-img">
+            <h4>SURE "A" IN MATHS.</h4>
+            <a href="https://wa.me/+256773554329" class="caption-overlay">
+                <div class="caption-text">
+                    <p>WhatsApp Us</p>
+                    <span class="phone-link">+256 773 554329</span>
+                </div>
+            </a>
+            <p>Click to have a book at affordable Price.</p>
+        </div>
+    </section><br><br>
+   
+    
+
+    <!-- Footer Navigation -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="contact.html">Join the Club</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <p>Chat with our Patron:</p>
+                <a href="https://wa.me/256773554329" class="whatsapp-link" style="margin-top: 10px;">WhatsApp Us Here</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    
+                    <li><a href="terms.html">Terms of Service</a></li>
+        
+                </ul>
+            </div>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 20px;">
+        <p style="text-align: center; font-size: 0.8rem; color: #777;">
+            &copy; 2026[Phymatics Champions Club](https://lutild.github.io/Phymatic/). Promoting Physics & Mathematics Excellence.
+        </p>
+    </footer>
+
+</body>
+</html>

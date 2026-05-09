@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phymatic Tutorial</title>
+    <!-- External Icons (Optional - will work without them) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS STYLES ---*/
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --accent: #38bdf8; /* Math Blue */
+            --accent-phy: #f59e0b; /* Physics Orange */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Prevents double scrollbars */
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo { font-size: 1.5rem; color: var(--accent); margin-bottom: 40px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 15px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: 0.2s;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .main-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto; /* Allows scrolling */
+        }
+
+        /* CINEMA PLAYER */
+        .cinema-container {
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Ratio */
+            height: 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .video-details { padding: 20px; background: var(--card-bg); }
+        .video-details h1 { font-size: 1.5rem; margin-bottom: 5px; }
+        .video-details p { color: #94a3b8; font-size: 0.9rem; }
+
+        .badge {
+            display: inline-block; padding: 4px 10px; border-radius: 4px;
+            font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;
+        }
+
+        /* PLAYLIST GRID */
+        .grid-header { margin: 30px 0 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .thumb { height: 140px; overflow: hidden; position: relative; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+
+        .card-body { padding: 15px; }
+        .card-body h4 { font-size: 0.95rem; margin-bottom: 5px; color: white; }
+        .card-body span { font-size: 0.8rem; color: var(--accent); }
+
+       
+    </style>
+</head>
+<body>
+    
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-play-circle"></i> Phymatics</div>
+        <button class="nav-btn active" onclick="filterVideos('all')"><i class="fas fa-border-all"></i> All Videos</button>
+        <button class="nav-btn" onclick="filterVideos('physics')"><i class="fas fa-atom"></i> Physics</button>
+        <button class="nav-btn" onclick="filterVideos('math')"><i class="fas fa-calculator"></i> Mathematics</button>
+    </div>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+
+        <!-- ACTIVE PLAYER -->
+        <div class="cinema-container">
+            <div class="video-wrapper">
+                <iframe id="mainFrame" src=" allowfullscreen"></iframe>
+            </div>
+            <div class="video-details">
+                <span id="mainBadge" class="badge" style="background: orange; color: black;">READY</span>
+                <h1 id="mainTitle">Select a Video</h1>
+                <p id="mainDesc">Click any video below to start watching.</p>
+            </div>
+        </div>
+
+        <!-- PLAYLIST -->
+        <h3 class="grid-header">Library Playlist</h3>
+        <div id="playlist" class="grid">
+            <!-- Javascript puts items here -->
+            <p>Loading Library...</p>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. DATABASE
+        const videos = [
+            { id: "kKKM8Y-u7ds", title: "Newton's Laws of Motion", type: "physics", desc: "The 3 Laws that govern the universe." },
+            { id: "W0VWO4asgmk", title: "Intro to Calculus Limits", type: "math", desc: "Understanding the foundation of Calculus." },
+            { id: "4i1MUWJoI0U", title: "Thermodynamics & Heat", type: "physics", desc: "Entropy, energy, and heat engines." },
+            { id: "riXcZT2ICjA", title: "Derivative Rules", type: "math", desc: "Power rule, chain rule, and slopes." },
+            { id: "7gf6YpdvtE0", title: "Gravity Explained", type: "physics", desc: "How mass affects space and time." },
+            { id: "PUB0TaZ7bhA", title: "Trgonometry Basics", type: "math", desc: "Sin, Cos, and Tan explained simply." },
+        ];
+
+        // 2. RENDER FUNCTION
+        function renderGrid(filter) {
+            const container = document.getElementById('playlist');
+            container.innerHTML = '' // Clear box
+
+            const list = filter === 'all' ? videos : videos.filter(v => v.type === filter);
+
+            list.forEach(vid => {
+                // Make Card
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = function() { playVideo(vid); }; // Click Event
+
+                // Color Logic
+                const color = vid.type === 'physics' ? '#f59e0b' : '#38bdf8';
+
+                card.innerHTML = `
+                    <div class="thumb">
+                        <img src="https://img.youtube.com/vi/${vid.id}/mqdefault.jpg">
+                    </div>
+                    <div class="card-body">
+                        <h4>${vid.title}</h4>
+                        <span style="color:${color}">${vid.type.toUpperCase()}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 3. PLAY FUNCTION
+        function playVideo(vid) {
+            document.getElementById('mainFrame').src = `https://www.youtube.com/embed/${vid.id}?autoplay=1`;
+            document.getElementById('mainTitle').innerText = vid.title;
+            document.getElementById('mainDesc').innerText = vid.desc;
+
+            const badge = document.getElementById('mainBadge');
+            badge.innerText = vid.type.toUpperCase();
+            badge.style.background = vid.type === 'physics' ? '#f59e0b' : '#38bdf8';
+
+            window.scrollTo({ top: 0,  behavior: 'smooth' });
+        }
+
+        // 4. FILTER FUNCTION
+        window.filterVideos =function(type) {
+            renderGrid(type);
+        };
+
+        // STARTUP
+        renderGrid('all');
+        // Load first video but don't autoplay
+        document.getElementById('mainFrame').src = `https://www.youtube.com/embed/${videos[0].id}`;
+        document.getElementById('mainTitle').innerText = videos[0].title;
+        
+    </script>
+
+</body>
+</html>
